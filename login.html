@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html ng-app="chat">
+<head>
+    <title>Wait-Chat</title>
+    <script language="JavaScript" src="js/libs/firebase.js"></script>
+    <script language="JavaScript" src="js/libs/firebase-simple-login.js"></script>
+    <script language="JavaScript" src="js/class/Constant.js"></script>
+    <script language="JavaScript" src="js/class/controller/SecuryCtrl.js"></script>
+    <script language="JavaScript">
+        window.onload = function()
+        {
+            SecuryCtrl.loginSuccess = function()
+            {
+                location.href = Constant.ROOM_URL;
+            };
+            window.security = new SecuryCtrl();
+            window.c = Constant;
+            if(!security.user)
+            {
+                c.getEById("logout").style.display = "none";
+            }
+        }
+
+    </script>
+</head>
+<body style="text-align: center">
+    <fieldset>
+        <label>Email</label>
+        <input type="text" id="email" value=""/> <br />
+        <label>Password</label>
+        <input type="password" id="password" /> <br />
+        <label>Remember Me</label>
+        <input type="checkbox" id="rememberMe" /> <br />
+        <button onclick="security.login(c.getEById('email').value, c.getEById('password').value, c.getEById('rememberMe').checked)">Login</button>
+        <button id="logout" onclick="security.logout();">Logout</button>
+        <button id="singnUp" onclick="javascript:location.href=Constant.SIGNUP_URL;">Sign Up</button>
+    </fieldset>
+</body>
+</html>

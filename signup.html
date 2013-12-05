@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sign up</title>
+    <script language="JavaScript" src="js/libs/firebase.js"></script>
+    <script language="JavaScript" src="js/libs/firebase-simple-login.js"></script>
+    <script language="JavaScript" src="js/class/Constant.js"></script>
+    <script language="JavaScript" src="js/class/controller/SecuryCtrl.js"></script>
+    <script language="JavaScript">
+        window.onload = function()
+        {
+            SecuryCtrl.loginSuccess = function()
+            {
+                location.href = Constant.ROOM_URL;
+            };
+            window.secury = new SecuryCtrl();
+        }
+
+        function signup()
+        {
+            var d = document;
+            var email = d.getElementById("email").value;
+            if(!email && ""==email)
+            {
+                alert("Email error");
+                return;
+            }
+            var pwd = d.getElementById("password").value;
+            if(!pwd && ""==pwd)
+            {
+                alert("Password error");
+                return;
+            }
+            var repwd = d.getElementById("repassword").value;
+            if(!repwd && ""==repwd)
+            {
+                alert("Re-Password error");
+                return;
+            }
+            if(repwd != pwd)
+            {
+                alert("Password and Re-Password unlike.");
+                return;
+            }
+            secury.signup(email, pwd);
+        }
+    </script>
+</head>
+<body style="text-align: center">
+    <fieldset>
+        <label>Email</label>
+        <input type="text" id="email" value=""/> <br />
+        <label>Password</label>
+        <input type="password" id="password" value=""/> <br />
+        <label>Re-Password</label>
+        <input type="password" id="repassword" value=""/> <br />
+        <button id="logout" onclick="signup();">Sign up</button>
+    </fieldset>
+</body>
+</html>

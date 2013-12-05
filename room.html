@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script language="JavaScript" src="js/libs/firebase.js"></script>
+    <script language="JavaScript" src="js/libs/firebase-simple-login.js"></script>
+    <script language="JavaScript" src="js/class/Constant.js"></script>
+    <script language="JavaScript" src="js/class/controller/SecuryCtrl.js"></script>
+    <script language="JavaScript" src="js/class/controller/RoomCtrl.js"></script>
+    <script language="JavaScript">
+        window.onload = function()
+        {
+            SecuryCtrl.loginError = function()
+            {
+                window.location = Constant.LOGIN_URL;
+            };
+            SecuryCtrl.loginSuccess = function()
+            {
+                var url = location.href;
+                var indexOf = url.indexOf("?");
+                if(-1 == indexOf)
+                {
+                    alert("params invalid");
+                    return;
+                }
+                var param = url.substring(indexOf+1, url.length);
+                window.room = new RoomCtrl(param);
+                room.listUsers();
+                room.listMessages();
+            };
+            window.secury = new SecuryCtrl();
+        }
+
+        function enterToSendMsg(text)
+        {
+            if(13 != event.keyCode) return;
+            if(null == room) return;
+            room.sendMessage(text);
+        }
+
+    </script>
+</head>
+<body style="margin: 0px; padding: 0px;">
+    <div style="text-align: center; width: 100%;" >
+        <div style="height: 480px; width: 30%; overflow: scroll; float: left;">
+            <div style="padding: 20px;">
+                <label>在线用户</label>
+                <ul id="users">
+                </ul>
+            </div>
+        </div>
+        <div id="right" style="height: 480px; width: 70%; overflow: scroll; float: left;">
+            <div id="message" style="text-align: left; padding: 20px;">
+            </div>
+        </div>
+        <div style="position: fixed; bottom: 20px; width: 90%; padding-left: 100px; padding-right: 100px;">
+            <input type="text" onkeypress="enterToSendMsg(this.value)" value="" id="text" style="width: 90%"/>
+            <button type="button" onclick="room.sendMessage(document.getElementById('text').value)">Send</button>
+            <button onclick="secury.logout();">Logout</button>
+        </div>
+
+    </div>
+</body>
+</html>

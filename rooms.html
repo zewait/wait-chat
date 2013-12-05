@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>房间</title>
+    <script language="JavaScript" src="js/libs/firebase.js"></script>
+    <script language="JavaScript" src="js/libs/firebase-simple-login.js"></script>
+    <script language="JavaScript" src="js/class/Constant.js"></script>
+    <script language="JavaScript" src="js/class/controller/SecuryCtrl.js"></script>
+    <script language="JavaScript" src="js/class/controller/RoomsCtrl.js"></script>
+    <script language="JavaScript">
+        window.onload = function()
+        {
+            SecuryCtrl.loginError = function()
+            {
+                window.location = Constant.LOGIN_URL;
+            };
+            SecuryCtrl.loginSuccess = function()
+            {
+                var rooms = new RoomsCtrl().list();
+            };
+            window.secury = new SecuryCtrl();
+        }
+    </script>
+</head>
+<body style="text-align: center">
+    <fieldset>
+        <button onclick="secury.logout();">Logout</button>
+        <div id="rooms">
+        </div>
+    </fieldset>
+</body>
+</html>
