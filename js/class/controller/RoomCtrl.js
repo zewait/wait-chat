@@ -4,6 +4,7 @@
 function RoomCtrl(room)
 {
     this.room = room;
+
     //连接上
     var connectedRef = new Firebase(Constant.FIREBASE_URL + ".info/connected");
     //当前用户的连接s
@@ -46,7 +47,6 @@ function RoomCtrl(room)
     var roomMessagesRef = new Firebase(Constant.FIREBASE_URL + "/messages/" + room + "/contents");
     this.listMessages = function()
     {
-
         roomMessagesRef.on("child_added", function(snapshot)
         {
             var name = snapshot.name(), value = snapshot.val();
@@ -69,7 +69,14 @@ function RoomCtrl(room)
         var textElemnt = document.getElementById("text");
         var text = textElemnt.value;
         if(!text || ""==text) return;
-        messagesRef.push().setWithPriority({email:Constant.USER.email, text:text}, new Date().getDate());
+        var msg = messagesRef.push();
+        msg.setWithPriority({email:Constant.USER.email, text:text}, new Date().getDate(), function(error)
+        {
+            if(error)
+            {
+                alert(error);
+            }
+        });
         textElemnt.value = "";
     }
 }
